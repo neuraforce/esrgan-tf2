@@ -1,6 +1,5 @@
 import tensorflow as tf
 
-
 def _parse_tfrecord(gt_size, scale, using_bin, using_flip, using_rot):
     def parse_tfrecord(tfrecord):
         if using_bin:
@@ -27,7 +26,6 @@ def _parse_tfrecord(gt_size, scale, using_bin, using_flip, using_rot):
 
         return lr_img, hr_img
     return parse_tfrecord
-
 
 def _transform_images(gt_size, scale, using_flip, using_rot):
     def transform_images(lr_img, hr_img):
@@ -86,7 +84,6 @@ def _transform_images(gt_size, scale, using_flip, using_rot):
 
         return lr_img, hr_img
     return transform_images
-
 
 def load_tfrecord_dataset(tfrecord_name, batch_size, gt_size,
                           scale, using_bin=False, using_flip=False,

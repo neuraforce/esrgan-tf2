@@ -5,20 +5,17 @@ from absl.flags import FLAGS
 
 from modules.dataset import load_tfrecord_dataset
 
-
 flags.DEFINE_boolean('using_bin', True, 'whether use binary file or not')
 flags.DEFINE_boolean('visualization', True, 'whether visualize dataset or not')
 
+BATCH_SIZE = 48
+GT_SIZE = 128
+SCALE = 4
 
 def main(_):
-    if FLAGS.using_bin:
-        train_dataset = load_tfrecord_dataset(
-            './data/DIV2K800_sub_bin.tfrecord', 16, 128, 4,
-            using_bin=True, using_flip=True, using_rot=False, buffer_size=10)
-    else:
-        train_dataset = load_tfrecord_dataset(
-            './data/DIV2K800_sub.tfrecord', 16, 128, 4,
-            using_bin=False, using_flip=True, using_rot=False, buffer_size=10)
+    train_dataset = load_tfrecord_dataset(
+        './data/full_dataset.tfrecord', BATCH_SIZE, GT_SIZE, SCALE,
+        using_bin=FLAGS.using_bin, using_flip=True, using_rot=False, buffer_size=10)
 
     num_samples = 100
     start_time = time.time()
@@ -35,7 +32,6 @@ def main(_):
                 exit()
 
     print("data fps: {:.2f}".format(num_samples / (time.time() - start_time)))
-
 
 if __name__ == '__main__':
     app.run(main)

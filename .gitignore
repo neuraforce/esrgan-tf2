@@ -5,6 +5,7 @@ results/*
 results_interp/*
 **/__pycache__/*
 **/*.tfrecord
+**/*.tfrecord.meta
 **/*.zip
 data/*/**/*.png
 data/*/**/*.jpg

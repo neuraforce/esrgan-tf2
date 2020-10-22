@@ -1,5 +1,5 @@
 # general setting
-batch_size: 16
+batch_size: 48
 input_size: 32
 gt_size: 128
 ch_size: 3
@@ -14,7 +14,7 @@ network_G:
 
 # dataset setting
 train_dataset:
-    path: './data/DIV2K800_sub_bin.tfrecord'
+    path: './data/full_dataset.tfrecord'
     num_samples: 32208
     using_bin: True
     using_flip: True
@@ -25,7 +25,7 @@ test_dataset:
 
 # training setting
 niter: 1000000
-lr: !!float 2e-4
+lr: 0.0001
 lr_steps: [200000, 400000, 600000, 800000]
 lr_rate: 0.5
 

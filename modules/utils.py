@@ -1,12 +1,8 @@
-import cv2
-import yaml
-import sys
-import time
+import cv2, sys, time, yaml
 import numpy as np
 import tensorflow as tf
 from absl import logging
 from modules.dataset import load_tfrecord_dataset
-
 
 def load_yaml(load_path):
     """load yaml file"""
@@ -14,7 +10,6 @@ def load_yaml(load_path):
         loaded = yaml.load(f, Loader=yaml.Loader)
 
     return loaded
-
 
 def set_memory_growth():
     gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -32,7 +27,6 @@ def set_memory_growth():
             # Memory growth must be set before GPUs have been initialized
             logging.info(e)
 
-
 def load_dataset(cfg, key, shuffle=True, buffer_size=10240):
     """load dataset"""
     dataset_cfg = cfg[key]
@@ -49,7 +43,6 @@ def load_dataset(cfg, key, shuffle=True, buffer_size=10240):
         buffer_size=buffer_size)
     return dataset
 
-
 def create_lr_hr_pair(raw_img, scale=4.):
     lr_h, lr_w = raw_img.shape[0] // scale, raw_img.shape[1] // scale
     hr_h, hr_w = lr_h * scale, lr_w * scale
@@ -57,15 +50,12 @@ def create_lr_hr_pair(raw_img, scale=4.):
     lr_img = imresize_np(hr_img, 1 / scale)
     return lr_img, hr_img
 
-
 def tensor2img(tensor):
     return (np.squeeze(tensor.numpy()).clip(0, 1) * 255).astype(np.uint8)
-
 
 def change_weight(model, vars1, vars2, alpha=1.0):
     for i, var in enumerate(model.trainable_variables):
         var.assign((1 - alpha) * vars1[i] + alpha * vars2[i])
-
 
 class ProgressBar(object):
     """A progress bar which can print the progress modified from
@@ -114,7 +104,6 @@ class ProgressBar(object):
             bar_chars, self.completed, self.task_num, inf_str, fps))
 
         sys.stdout.flush()
-
 
 ###############################################################################
 #   These processing code is copied and modified from official implement:     #
@@ -194,7 +183,6 @@ def imresize_np(img, scale, antialiasing=True):
 
     return out_2.clip(0, 255)
 
-
 def _cubic(x):
     absx = np.abs(x)
     absx2 = absx ** 2
@@ -202,7 +190,6 @@ def _cubic(x):
     return (1.5 * absx3 - 2.5 * absx2 + 1) * ((absx <= 1).astype(np.float64)) \
         + (-0.5 * absx3 + 2.5 * absx2 - 4 * absx + 2) * (
             ((absx > 1) * (absx <= 2)).astype(np.float64))
-
 
 def _calculate_weights_indices(in_length, out_length, scale, kernel,
                                kernel_width, antialiasing):
@@ -262,7 +249,6 @@ def _calculate_weights_indices(in_length, out_length, scale, kernel,
     indices = indices + sym_len_s - 1
     return weights, indices, int(sym_len_s), int(sym_len_e)
 
-
 def calculate_psnr(img1, img2):
     # img1 and img2 have range [0, 255]
     img1 = img1.astype(np.float64)
@@ -271,7 +257,6 @@ def calculate_psnr(img1, img2):
     if mse == 0:
         return float('inf')
     return 20 * np.log10(255.0 / np.sqrt(mse))
-
 
 def _ssim(img1, img2):
     C1 = (0.01 * 255)**2
@@ -295,7 +280,6 @@ def _ssim(img1, img2):
         / ((mu1_sq + mu2_sq + C1) * (sigma1_sq + sigma2_sq + C2))
     return ssim_map.mean()
 
-
 def calculate_ssim(img1, img2):
     '''calculate SSIM
     the same outputs as MATLAB's
@@ -315,7 +299,6 @@ def calculate_ssim(img1, img2):
             return _ssim(np.squeeze(img1), np.squeeze(img2))
     else:
         raise ValueError('Wrong input image dimensions.')
-
 
 def rgb2ycbcr(img, only_y=True):
     """Convert rgb to ycbcr

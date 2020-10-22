@@ -12,7 +12,6 @@ from modules.models import RRDB_Model
 from modules.utils import (load_yaml, tensor2img, create_lr_hr_pair,
                            change_weight)
 
-
 flags.DEFINE_string('cfg_path1', './configs/psnr.yaml', 'config file path 1')
 flags.DEFINE_string('cfg_path2', './configs/esrgan.yaml', 'config file path 2')
 flags.DEFINE_string('gpu', '0', 'which gpu to use')
@@ -21,10 +20,9 @@ flags.DEFINE_string('img_path', './data/PIPRM_3_crop.png',
 flags.DEFINE_boolean('save_image', True, 'save the result images.')
 flags.DEFINE_boolean('save_ckpt', False, 'save all alpha ckpt.')
 
-
-def main(_argv):
+def main(_):
     # init
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
     os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu
 
     logger = tf.get_logger()
@@ -99,7 +97,6 @@ def main(_argv):
         cv2.imwrite(result_interp_w_path, np.concatenate(interp_w, 1))
         print("[*] write the image interp {}".format(result_interp_i_path))
         cv2.imwrite(result_interp_i_path, np.concatenate(interp_i, 1))
-
 
 if __name__ == '__main__':
     try:

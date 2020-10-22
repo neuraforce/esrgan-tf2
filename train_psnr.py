@@ -9,14 +9,12 @@ from modules.losses import PixelLoss
 from modules.utils import (load_yaml, load_dataset, ProgressBar,
                            set_memory_growth)
 
-
 flags.DEFINE_string('cfg_path', './configs/psnr.yaml', 'config file path')
 flags.DEFINE_string('gpu', '0', 'which gpu to use')
 
-
 def main(_):
     # init
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
     os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu
 
     logger = tf.get_logger()
@@ -103,7 +101,6 @@ def main(_):
                 manager.latest_checkpoint))
 
     print("\n[*] training done!")
-
 
 if __name__ == '__main__':
     app.run(main)

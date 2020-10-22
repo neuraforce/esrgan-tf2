@@ -98,10 +98,10 @@ python data/extract_subimages.py
 **Step 4**: Convert the sub-images to tfrecord file with the the script bellow.
 ```bash
 # Binary Image (recommend): convert slow, but loading faster when traning.
-python data/convert_train_tfrecord.py --output_path="./data/DIV2K800_sub_bin.tfrecord" --is_binary=True
+python data/convert_train_tfrecord.py --output_path="./data/full_dataset.tfrecord" --is_binary=True
 # or
 # Online Image Loading: convert fast, but loading slower when training.
-python data/convert_train_tfrecord.py --output_path="./data/DIV2K800_sub.tfrecord" --is_binary=False
+python data/convert_train_tfrecord.py --output_path="./data/full_dataset.tfrecord" --is_binary=False
 ```
 
 Note:
@@ -159,7 +159,7 @@ network_D:
 
 # dataset setting
 train_dataset:
-    path: './data/DIV2K800_sub_bin.tfrecord'
+    path: './data/full_dataset.tfrecord'
     num_samples: 32208
     using_bin: True
     using_flip: True
@@ -171,8 +171,8 @@ test_dataset:
 # training setting
 niter: 400000
 
-lr_G: !!float 1e-4
-lr_D: !!float 1e-4
+lr_G: 0.0001
+lr_D: 0.0001
 lr_steps: [50000, 100000, 200000, 300000]
 lr_rate: 0.5
 
@@ -181,13 +181,13 @@ adam_beta2_G: 0.99
 adam_beta1_D: 0.9
 adam_beta2_D: 0.99
 
-w_pixel: !!float 1e-2
+w_pixel: 0.01
 pixel_criterion: l1
 
 w_feature: 1.0
 feature_criterion: l1
 
-w_gan: !!float 5e-3
+w_gan: 0.001
 gan_type: ragan  # gan | ragan
 
 save_steps: 5000

@@ -11,15 +11,13 @@ from modules.utils import (load_yaml, set_memory_growth, imresize_np,
                            tensor2img, rgb2ycbcr, create_lr_hr_pair,
                            calculate_psnr, calculate_ssim)
 
-
 flags.DEFINE_string('cfg_path', './configs/esrgan.yaml', 'config file path')
 flags.DEFINE_string('gpu', '0', 'which gpu to use')
 flags.DEFINE_string('img_path', '', 'path to input image')
 
-
-def main(_argv):
+def main(_):
     # init
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
     os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu
 
     logger = tf.get_logger()

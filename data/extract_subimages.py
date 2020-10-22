@@ -11,9 +11,7 @@ from PIL import Image
 import time
 from shutil import get_terminal_size
 
-
 sys.path.append(osp.dirname(osp.dirname(osp.abspath(__file__))))
-
 
 def main():
     mode = 'pair'  # single (one input folder) | pair (extract corresponding GT and LR pairs)
@@ -78,7 +76,6 @@ def main():
     else:
         raise ValueError('Wrong mode.')
 
-
 def extract_signle(opt):
     input_folder = opt['input_folder']
     save_folder = opt['save_folder']
@@ -101,7 +98,6 @@ def extract_signle(opt):
     pool.close()
     pool.join()
     print('All subprocesses done.')
-
 
 def worker(path, opt):
     crop_sz = opt['crop_sz']
@@ -139,7 +135,6 @@ def worker(path, opt):
                          img_name.replace('.png', '_s{:03d}.png'.format(index))), crop_img,
                 [cv2.IMWRITE_PNG_COMPRESSION, opt['compression_level']])
     return 'Processing {:s} ...'.format(img_name)
-
 
 # ##############
 # ### Utils ####
@@ -193,16 +188,13 @@ class ProgressBar(object):
                 self.completed, int(elapsed + 0.5), fps))
         sys.stdout.flush()
 
-
 # ###################
 # ### Data Utils ####
 # ###################
 IMG_EXTENSIONS = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP']
 
-
 def is_image_file(filename):
     return any(filename.endswith(extension) for extension in IMG_EXTENSIONS)
-
 
 def _get_paths_from_images(path):
     """get image path list from image folder"""
@@ -215,7 +207,6 @@ def _get_paths_from_images(path):
                 images.append(img_path)
     assert images, '{:s} has no valid image file'.format(path)
     return images
-
 
 if __name__ == '__main__':
     main()

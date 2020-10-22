@@ -3,17 +3,14 @@ import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense, Flatten, Input, Conv2D, LeakyReLU
 
-
 def _regularizer(weights_decay=5e-4):
     return tf.keras.regularizers.l2(weights_decay)
-
 
 def _kernel_init(scale=1.0, seed=None):
     """He normal initializer with scale."""
     scale = 2. * scale
     return tf.keras.initializers.VarianceScaling(
         scale=scale, mode='fan_in', distribution="truncated_normal", seed=seed)
-
 
 class BatchNormalization(tf.keras.layers.BatchNormalization):
     """Make trainable=False freeze BN for real (the og version is sad).
@@ -30,7 +27,6 @@ class BatchNormalization(tf.keras.layers.BatchNormalization):
             training = tf.constant(False)
         training = tf.logical_and(training, self.trainable)
         return super().call(x, training)
-
 
 class ResDenseBlock_5C(tf.keras.layers.Layer):
     """Residual Dense Block"""
@@ -58,7 +54,6 @@ class ResDenseBlock_5C(tf.keras.layers.Layer):
         x5 = self.conv5(tf.concat([x, x1, x2, x3, x4], 3))
         return x5 * self.res_beta + x
 
-
 class ResInResDenseBlock(tf.keras.layers.Layer):
     """Residual in Residual Dense Block"""
     def __init__(self, nf=64, gc=32, res_beta=0.2, wd=0., name='RRDB',
@@ -74,7 +69,6 @@ class ResInResDenseBlock(tf.keras.layers.Layer):
         out = self.rdb_2(out)
         out = self.rdb_3(out)
         return out * self.res_beta + x
-
 
 def RRDB_Model(size, channels, cfg_net, gc=32, wd=0., name='RRDB_model'):
     """Residual-in-Residual Dense Block based Model """
@@ -109,7 +103,6 @@ def RRDB_Model(size, channels, cfg_net, gc=32, wd=0., name='RRDB_model'):
     out = conv_f(filters=channels, name='conv_last')(fea)
 
     return Model(inputs, out, name=name)
-
 
 def DiscriminatorVGG128(size, channels, nf=64, wd=0.,
                         name='Discriminator_VGG_128'):

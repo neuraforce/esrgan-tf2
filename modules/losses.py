@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.applications.vgg19 import preprocess_input, VGG19
 
-
 def PixelLoss(criterion='l1'):
     """pixel loss"""
     if criterion == 'l1':
@@ -11,7 +10,6 @@ def PixelLoss(criterion='l1'):
     else:
         raise NotImplementedError(
             'Loss type {} is not recognized.'.format(criterion))
-
 
 def ContentLoss(criterion='l1', output_layer=54, before_act=True):
     """content loss"""
@@ -50,7 +48,6 @@ def ContentLoss(criterion='l1', output_layer=54, before_act=True):
 
     return content_loss
 
-
 def DiscriminatorLoss(gan_type='ragan'):
     """discriminator loss"""
     cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=False)
@@ -73,7 +70,6 @@ def DiscriminatorLoss(gan_type='ragan'):
     else:
         raise NotImplementedError(
             'Discriminator loss type {} is not recognized.'.format(gan_type))
-
 
 def GeneratorLoss(gan_type='ragan'):
     """generator loss"""
