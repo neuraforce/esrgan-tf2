@@ -1,5 +1,5 @@
 # general setting
-batch_size: 56
+batch_size: 48
 input_size: 32
 gt_size: 128
 ch_size: 3
@@ -27,11 +27,11 @@ test_dataset:
     set14_path: './data/Set14'
 
 # training setting
-niter: 400000
+niter: 120000
 
 lr_G: 0.0001
 lr_D: 0.0001
-lr_steps: [50000, 100000, 200000, 300000]
+lr_steps: [20000, 40000, 72000, 96000]
 lr_rate: 0.5
 
 adam_beta1_G: 0.9

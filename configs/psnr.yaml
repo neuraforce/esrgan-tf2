@@ -24,9 +24,9 @@ test_dataset:
     set14_path: './data/Set14'
 
 # training setting
-niter: 1000000
+niter: 300000
 lr: 0.0001
-lr_steps: [200000, 400000, 600000, 800000]
+lr_steps: [60000, 90000, 180000, 240000]
 lr_rate: 0.5
 
 adam_beta1_G: 0.9
